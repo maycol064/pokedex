@@ -107,16 +107,28 @@ export const getStaticPaths: GetStaticPaths = async () => {
     paths: pokemonsNames.map((name) => ({
       params: { name },
     })),
-    fallback: false, // can also be true or 'blocking'
+    fallback: 'blocking', // can also be true or 'blocking'
   };
 };
 
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { name } = params as { name: string };
 
+  const pokemon = await getPokemonInfo(name.toLowerCase());
+
+  if (pokemon === null) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: false
+      }
+    }
+  }
+
   return {
     // Estás props son las que recibe el HomePage
-    props: { pokemon: await getPokemonInfo(name) },
+    props: { pokemon },
+    revalidate: 86400,
   };
 };
 
