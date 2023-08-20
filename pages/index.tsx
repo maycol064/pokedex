@@ -4,6 +4,7 @@ import { Layout } from '@/components/layouts';
 import { pokeApi } from '@/api';
 import { PokeResponse, SmallPokemon } from '@/interfaces';
 import { PokemonCard } from '@/components/pokemon';
+import Image from 'next/image';
 
 interface Props {
   pokemons: SmallPokemon[];
